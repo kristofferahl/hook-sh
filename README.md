@@ -51,7 +51,7 @@ hook_pre_terraform_apply() {
 }
 
 hook_post_terraform_destroy() {
-  echo 'Running after after terraform destroy...'
+  echo 'Running after terraform destroy...'
 }
 ```
 
