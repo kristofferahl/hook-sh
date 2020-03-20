@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 export HOOK_LOG="${HOOK_LOG:-false}"
+export HOOK_LOG_FUNC="${HOOK_LOG_FUNC:-_hook_log_msg}"
 export HOOK_PREFIX=${HOOK_PREFIX:-hook_}
 export HOOK_GLOBAL_PREFIX=${HOOK_GLOBAL_PREFIX:-global_}
 export HOOK_FILE="${HOOK_FILE:-./hooks.sh}"
@@ -74,15 +75,15 @@ _hook_exec() {
   shift
 
   if [[ "$(type -t "${HOOK_GLOBAL_PREFIX:?}${hook_func:?}")" == 'function' ]]; then
-    [[ "${HOOK_LOG}" == 'true' ]] && echo "[hook] executing \"${HOOK_GLOBAL_PREFIX:?}${hook_func}\" (${HOOK_GLOBAL_FILE})"
+    _hook_log INFO "executing \"${HOOK_GLOBAL_PREFIX:?}${hook_func}\" (${HOOK_GLOBAL_FILE})"
     "${HOOK_GLOBAL_PREFIX:?}${hook_func:?}" "$@"
-    [[ "${HOOK_LOG}" == 'true' ]] && echo "[hook] finished executing \"${HOOK_GLOBAL_PREFIX:?}${hook_func}\" (${HOOK_GLOBAL_FILE})"
+    _hook_log DEBUG "finished executing \"${HOOK_GLOBAL_PREFIX:?}${hook_func}\" (${HOOK_GLOBAL_FILE})"
   fi
 
   if [[ "$(type -t "${hook_func:?}")" == 'function' ]]; then
-    [[ "${HOOK_LOG}" == 'true' ]] && echo "[hook] executing \"${hook_func}\" (${HOOK_FILE:?})"
+    _hook_log INFO "executing \"${hook_func}\" (${HOOK_FILE:?})"
     "${hook_func:?}" "$@"
-    [[ "${HOOK_LOG}" == 'true' ]] && echo "[hook] finished executing \"${hook_func}\" (${HOOK_FILE:?})"
+    _hook_log DEBUG "finished executing \"${hook_func}\" (${HOOK_FILE:?})"
   fi
 }
 
@@ -99,4 +100,12 @@ _hook_array_contains() {
   done
 
   return 1
+}
+
+_hook_log() {
+  [[ "${HOOK_LOG}" == 'true' && "${HOOK_LOG_FUNC}" != '' ]] && "${HOOK_LOG_FUNC:?}" "$@"
+}
+
+_hook_log_msg() {
+  echo "[hook] [$1] ${*:2}"
 }
