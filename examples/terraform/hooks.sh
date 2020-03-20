@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 hook_pre() {
-  echo 'Always running before any command passed to hook...'
+  echo 'Always running before any command...'
 }
 
 hook_pre_terraform() {
@@ -9,7 +9,7 @@ hook_pre_terraform() {
 }
 
 hook_pre_terraform_apply() {
-  echo 'Running before applying terraform changes...'
+  echo 'Running before terraform apply...'
 }
 
 hook_post_terraform_destroy() {

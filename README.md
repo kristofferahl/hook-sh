@@ -39,7 +39,7 @@ HOOK_LOG  | false  | When set to true, `hook.sh` will output debug logs.
 #!/usr/bin/env bash
 
 hook_pre() {
-  echo 'Always running before any command passed to hook...'
+  echo 'Always running before any command...'
 }
 
 hook_pre_terraform() {
@@ -47,7 +47,7 @@ hook_pre_terraform() {
 }
 
 hook_pre_terraform_apply() {
-  echo 'Running before applying terraform changes...'
+  echo 'Running before terraform apply...'
 }
 
 hook_post_terraform_destroy() {
@@ -66,11 +66,11 @@ terraform apply
 
 **output**
 ```
-Always running before any command passed to hook...
+Always running before any command...
 Always running before any terraform command...
 [terraform init ...]
-Always running before any command passed to hook...
+Always running before any command...
 Always running before any terraform command...
-Running before applying terraform changes...
+Running before terraform apply...
 [terraform apply ...]
 ```
