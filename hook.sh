@@ -33,7 +33,7 @@ hook() {
     # shellcheck source=/dev/null
     source "${HOOK_FILE:?}"
   else
-    _hook_log ERROR "hook file not found (${HOOK_FILE:?})"
+    _hook_log WARN "hook file not found (${HOOK_FILE:?})"
   fi
 
   mapfile -t functions_after_hook < <(declare -F | sed 's/declare -f //g')
