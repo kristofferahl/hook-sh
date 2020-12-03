@@ -113,7 +113,9 @@ _hook_array_contains() {
 }
 
 _hook_log() {
-  [[ "$1" == 'ERROR' || "${HOOK_LOG}" == 'true' && "${HOOK_LOG_FUNC}" != '' ]] && "${HOOK_LOG_FUNC:?}" "$@"
+  if [[ "$1" == 'ERROR' || "${HOOK_LOG}" == 'true' && "${HOOK_LOG_FUNC}" != '' ]]; then
+    "${HOOK_LOG_FUNC:?}" "$@" || true
+  fi
 }
 
 _hook_log_msg() {
